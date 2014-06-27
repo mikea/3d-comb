@@ -5,10 +5,10 @@ width = 100;
 
 // ---- Parameters
 
-toothWidth = 1.7;
+toothWidth = 1;
 numberOfTeeth = 30;
 
-toothCutAngle = 70;
+toothCutAngle = 40;
 handleHeight = height * 0.3;
 side = width * .035;
 
