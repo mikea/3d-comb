@@ -26,27 +26,35 @@ echo("workingWidth=", workingWidth, "toothWidth=", toothWidth, "toothGap=", toot
 $fs = toothWidth / 10;
 
 module base() {
-  cube(size = [height, thickness, width]);
+  // cube with rounded corners
+  hull() {
+    translate([thickness / 2, 0, thickness / 2])
+    cube(size = [height - thickness, thickness, width - thickness]);
 
-  /*
-  linear_extrude(height = width) {
-    polygon(points=[
-      [0, 0],
-      [height, thickness / 2],
-      [height, -thickness / 2]
-      ], paths=[[0, 1, 2]]);
+    translate([thickness / 2, thickness / 2, thickness / 2])
+    sphere(r = thickness / 2);
+
+    translate([thickness / 2, thickness / 2, width - thickness / 2])
+    sphere(r = thickness / 2);
+
+    translate([height - thickness / 2, thickness / 2, width - thickness / 2])
+    sphere(r = thickness / 2);
+
+    translate([height - thickness / 2, thickness / 2, thickness / 2])
+    sphere(r = thickness / 2);
   }
-  */
 }
 
 difference() {
   base();
 
+  // cut teeth out
   for (i = [0 : numberOfTeeth]) {
     translate([-1, -100, side + i * toothStep])
     cube(size = [1 + height - handleHeight, 200, toothGap]);
   }
 
+  // "sharpen" teeth
   translate([0, thickness / 2, -1])
   rotate(a=90-toothCutAngle / 2 + 180, v=[0, 0, 1])
   cube(size = [1000, 1000, width + 2]);
